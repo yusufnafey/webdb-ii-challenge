@@ -5,6 +5,8 @@ const knex = require("knex");
 const knexConfig = require("./knexfile");
 const db = knex(knexConfig.development);
 
+// how to fix migrations?
+
 router.get("/", (req, res) => {
   db("cars")
     .then(car => {
@@ -62,6 +64,28 @@ router.put("/:id", (req, res) => {
       } else {
         res.status(404).json({
           message: "There was an error updating the car with the specified ID."
+        });
+      }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ message: "There was an error getting the car information." });
+    });
+});
+
+router.delete("/:id", (req, res) => {
+  const { id } = req.params;
+
+  db("cars")
+    .where({ id })
+    .del()
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json(count);
+      } else {
+        res.status(404).json({
+          message: "There was an error deleting the car with the specified ID."
         });
       }
     })
