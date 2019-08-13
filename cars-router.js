@@ -32,12 +32,17 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const car = req.body;
+  const newCar = req.body;
 
+  if (!newCar.VIN || !newCar.Make || !newCar.Model || !newCar.Mileage) {
+    res
+      .status(400)
+      .json({ message: "Please provide car VIN, make, model, and mileage. " });
+  }
   db("cars")
-    .insert(car)
-    .then(car => {
-      res.status(200).json(car);
+    .insert(newCar)
+    .then(newCar => {
+      res.status(200).json(newCar);
     })
     .catch(error => {
       res.status(500).json({ message: "There was an error adding the car." });

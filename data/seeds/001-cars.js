@@ -5,9 +5,9 @@ exports.seed = function(knex) {
     .then(function() {
       // Inserts seed entries
       return knex("cars").insert([
-        { VIN: "123456789", Make: "Honda", Model: "Accord", Mileage: 2500 },
-        { VIN: "987654321", Make: "Toyota", Model: "Camry", Mileage: 7500 },
-        { VIN: "456789123", Make: "Ford", Model: "Fusion", Mileage: 15000 }
+        { vin: "123456789", make: "Honda", model: "Accord", mileage: 2500 },
+        { vin: "987654321", make: "Toyota", model: "Camry", mileage: 7500 },
+        { vin: "456789123", make: "Ford", model: "Fusion", mileage: 15000 }
       ]);
     });
 };
