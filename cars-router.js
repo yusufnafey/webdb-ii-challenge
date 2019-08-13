@@ -34,11 +34,11 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
   const newCar = req.body;
 
-  if (!newCar.VIN || !newCar.Make || !newCar.Model || !newCar.Mileage) {
-    res
-      .status(400)
-      .json({ message: "Please provide car VIN, make, model, and mileage. " });
-  }
+  //   if (!newCar.VIN || !newCar.Make || !newCar.Model || !newCar.Mileage) {
+  //     res
+  //       .status(400)
+  //       .json({ message: "Please provide car VIN, make, model, and mileage. " });
+  //   }
   db("cars")
     .insert(newCar)
     .then(newCar => {
@@ -46,6 +46,29 @@ router.post("/", (req, res) => {
     })
     .catch(error => {
       res.status(500).json({ message: "There was an error adding the car." });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const changes = req.body;
+
+  db("cars")
+    .where({ id })
+    .update(changes)
+    .then(count => {
+      if (count > 0) {
+        res.status(200).json(count);
+      } else {
+        res.status(404).json({
+          message: "There was an error updating the car with the specified ID."
+        });
+      }
+    })
+    .catch(error => {
+      res
+        .status(500)
+        .json({ message: "There was an error getting the car information." });
     });
 });
 
