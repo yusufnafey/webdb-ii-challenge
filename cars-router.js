@@ -6,9 +6,15 @@ const knexConfig = require("./knexfile");
 const db = knex(knexConfig.development);
 
 router.get("/", (req, res) => {
-  res.send("hello from router");
+  db("cars")
+    .then(car => {
+      res.status(200).json(car);
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "There was an error retrieving the cars information."
+      });
+    });
 });
-
-router.get("/", (req, res) => {});
 
 module.exports = router;
