@@ -12,7 +12,21 @@ router.get("/", (req, res) => {
     })
     .catch(error => {
       res.status(500).json({
-        message: "There was an error retrieving the cars information."
+        message: "There was an error retrieving the cars."
+      });
+    });
+});
+
+router.get("/:id", (req, res) => {
+  db("cars")
+    .where({ id: req.params.id })
+    .first()
+    .then(car => {
+      res.status(200).json(car);
+    })
+    .catch(error => {
+      res.status(500).json({
+        message: "There was an error retrieving the car with the specified ID."
       });
     });
 });
